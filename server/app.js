@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const cors = require("cors");
 const socket = require("socket.io");
 //port setup
 const port = process.env.PORT || 3000;

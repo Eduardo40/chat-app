@@ -6,9 +6,6 @@ const socket = require("socket.io");
 const port = process.env.PORT || 3000;
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-
-app.use(cors());
-
 //fix ugly path
 const publicPath = path.join(__dirname,"../public");
 const msgs = [];

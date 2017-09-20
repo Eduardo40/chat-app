@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node server/app.js"
   },
+  "engines": {
+    "node":"8.5.0"
+  },
   "author": "",
   "license": "MIT",
   "dependencies": {

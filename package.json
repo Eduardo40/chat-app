@@ -1,0 +1,14 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "socket.io app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server/app.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.4"
+  }
+}

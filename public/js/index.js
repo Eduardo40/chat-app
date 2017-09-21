@@ -24,20 +24,15 @@ $("form").on("submit",function(e){
     let text = document.querySelector(".text").value;
     if(to.length > 0 && text.length > 0){
         socket.emit("createMessage",{from:to,text:text},function(serverMessage){
-                $(".alerts").html(`
-                <div class="alert alert-success">
-                Sent!
-                </div
-                `).show(200).hide(200)
-        });
-        text = "";
-    }else{
-        alert("Fill out Username and text fields");
-    }
-    console.log(to, text);
-});
-
-socket.on("newMessage",function(msg){
-    console.log("New Message: ",msg);
+               $(".text").val("")
+            });
+            $(".to").prop({disabled:true});
+        }else{
+            alert("Please fill out username or text field");
+        }
+    });
+    
+    socket.on("newMessage",function(msg){
+        window.scrollBy(0, window.outerHeight) 
     document.querySelector(".mesage").innerHTML+=`<hr><p><strong>${msg.from}</strong>: ${msg.text} <br><small class="text-muted">${msg.createdAt}</small></p>`;
 });

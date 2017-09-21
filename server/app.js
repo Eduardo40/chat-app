@@ -20,16 +20,7 @@ app.get("/", (req,res)=>{
 });
 
 io.on('connection', (socket) => {
-    socket.broadcast.emit("newUser","Sombody came here...")
     console.log("User connected");
-    socket.on("newMsg",(msg)=>{
-        console.log(msg.data);
-        msgs.unshift(msg.data);
-    })
-    socket.emit("newMessage",{from:"Eduardo",text:"Hejhejehej"})
-    socket.on("disconnect",(socket)=>{
-        console.log("Bye bye y cunt");
-    })
     socket.on("createMessage",(msg)=>{
         console.log(msg);
         msg.createdAt = new Date().toDateString();

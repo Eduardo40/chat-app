@@ -9,9 +9,9 @@ socket.on("disconnect", function(socekt) {
     console.log("Bye bye");
 })
 document.querySelector("form").addEventListener("submit",function(e){
+    e.preventDefault()
     const to = document.querySelector(".to").value;
     const text = document.querySelector(".text").value;
-    e.preventDefault()
     socket.emit("createMessage",{from:to,text:text});
 })
 socket.on("newMessage",function(msg){

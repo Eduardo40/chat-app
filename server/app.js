@@ -20,7 +20,8 @@ app.get("/", (req,res)=>{
 });
 
 io.on('connection', (socket) => {
-    console.log("User connected");
+    socket.emit("newMessage",{from:"Admin",text:"Welcome to the chat-app", createdAt:new Date().getTime().toLocaleString()});
+    socket.broadcast.emit("newMessage",{from:"Admin",text:"New user joined to the chat!",createdAt:new Date().getTime()})
     socket.on("createMessage",(msg)=>{
         console.log(msg);
         msg.createdAt = new Date().toDateString();

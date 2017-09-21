@@ -16,5 +16,5 @@ document.querySelector("form").addEventListener("submit",function(e){
 })
 socket.on("newMessage",function(msg){
     console.log("New Message: ",msg);
-    document.querySelector(".mesage").innerHTML+=`From: ${msg.from},Text: ${msg.text} created at: ${msg.createdAt}<br>`
+    document.querySelector(".mesage").innerHTML+=`<strong>${msg.from}<strong/> : ${msg.text} -- ${msg.createdAt}<br>`
 });

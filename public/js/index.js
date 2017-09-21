@@ -13,8 +13,6 @@ document.querySelector("form").addEventListener("submit",function(e){
     const text = document.querySelector(".text").value;
     e.preventDefault()
     socket.emit("createMessage",{from:to,text:text});
-    document.querySelector(".mesage").innerHTML+=`From: ${to},Text: ${text}<br>`
-//     // window.location.reload();
 })
 socket.on("newMessage",function(msg){
     console.log("New Message: ",msg);

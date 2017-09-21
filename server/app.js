@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
         console.log(msg);
         msg.createdAt = new Date().toDateString();
         // console.log("New email created",msg);
-        socket.broadcast.emit("newMessage",msg)
+        io.emit("newMessage",msg)
     })
   });
 

@@ -1,4 +1,4 @@
-const socket = io.connect('http://localhost:3000');
+const socket = io();
 socket.on('connect', function (data) {
     socket.on("newUser",function(msg){
         console.log(msg);

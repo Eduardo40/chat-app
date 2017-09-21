@@ -22,6 +22,9 @@ $("form").on("submit",function(e){
     e.preventDefault()
     const to = document.querySelector(".to").value;
     let text = document.querySelector(".text").value;
+    if(to === "Admin"){
+        return false;
+    }
     if(to.length > 0 && text.length > 0){
         socket.emit("createMessage",{from:to,text:text},function(serverMessage){
                $(".text").val("")

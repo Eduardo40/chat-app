@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const socket = require("socket.io");
+const {generateMesg} = require("./utils/message");
 //port setup
 const port = process.env.PORT || 3000;
 var server = require('http').Server(app);
@@ -20,15 +21,18 @@ app.get("/", (req,res)=>{
 });
 
 io.on('connection', (socket) => {
-    socket.emit("newMessage",{from:"Admin",text:"Welcome to the chat-app", createdAt:new Date().getTime().toLocaleString()});
-    socket.broadcast.emit("newMessage",{from:"Admin",text:"New user joined to the chat!",createdAt:new Date().getTime()})
-    socket.on("createMessage",(msg)=>{
+    socket.emit("newMessage",generateMesg("Admin","Welcome new user"));
+    socket.broadcast.emit("newMessage",generateMesg("Admin", "New user joined to the chat!"));
+    socket.on("createMessage",(msg,cb)=>{
+        cb("Sucess message sent, this a message from the server")
         console.log(msg);
         msg.createdAt = new Date().toDateString();
-        // console.log("New email created",msg);
-        io.emit("newMessage",msg)
+        io.emit("newMessage",msg);
     })
-  });
+    socket.on("disconnect",()=>{
+        socket.broadcast.emit("newMessage",generateMesg("Admin","Someone left the chat.."));
+    })
+});
 
 server.listen(port, () => {
     console.log(`App listening on port ${port}`);

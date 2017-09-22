@@ -37,5 +37,18 @@ $("form").on("submit",function(e){
     
     socket.on("newMessage",function(msg){
         window.scrollBy(0, window.outerHeight) 
-    document.querySelector(".mesage").innerHTML+=`<hr><p><strong>${msg.from}</strong>: ${msg.text} <br><small class="text-muted">${msg.createdAt}</small></p>`;
+        let hr = $("<hr>");
+        let p = $("<p></p>");
+        let small = $("<small></small>");
+        let strong = $("<strong></strong>");
+        let br = $("<br>");
+        let msgPlace = $(".mesage");
+        strong.text(`${msg.from}:`);
+        small.text(`${msg.createdAt}`);
+        p.append(strong);
+        p.append(`${msg.text}`);
+        p.append(br);
+        p.append(small);
+        msgPlace.append(hr);
+        msgPlace.append(p)
 });

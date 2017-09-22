@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const moment = require("moment");
 const socket = require("socket.io");
 const {
     generateMesg
@@ -28,7 +29,7 @@ io.on('connection', (socket) => {
     socket.on("createMessage", (msg, cb) => {
         cb("Sucess message sent, this a message from the server")
         console.log(msg);
-        msg.createdAt = new Date().toDateString();
+        msg.createdAt =  moment().format("DD.MM.YYYY, kk:mm");
         io.emit("newMessage", msg);
     })
     socket.on("disconnect", () => {

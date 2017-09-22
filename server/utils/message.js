@@ -1,8 +1,9 @@
+const moment = require("moment");
 const generateMesg = (from, text) => {
     return {
         from,
         text,
-        createdAt: new Date().toDateString()
+        createdAt: moment().format("DD.MM.YYYY, kk:mm")
     }
 }
 

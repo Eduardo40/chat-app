@@ -1,4 +1,4 @@
-const generateMesg = (from, text)=>{
+const generateMesg = (from, text) => {
     return {
         from,
         text,

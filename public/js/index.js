@@ -1,4 +1,6 @@
 const socket = io();
+const addUserBtn = $(".setUsername");
+const usernameField = $(".username");
 socket.on('connect', function (data) {
     socket.on("newUser", function (msg) {
         console.log(msg);
@@ -10,28 +12,65 @@ socket.on("disconnect", function (socekt) {
 });
 
 $("form").on("submit", function (e) {
-    e.preventDefault()
-    const to = document.querySelector(".to").value;
-    let text = document.querySelector(".text").value;
-    if (to === "Admin") {
-        return false;
-    }
-    if (to.length > 0 && text.length > 0) {
-        socket.emit("createMessage", {
-            from: to,
-            text: text
-        }, function (serverMessage) {
+    e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+    const from = usernameField.val();
+    const text = document.querySelector(".text").value;
+    if(addUserBtn.prop("disabled") === true && from.length > 0 && text.length > 0){
+        if (from === "Admin") {
+            return socket.emit("createMessage", {
+                from: "Admin",
+                text: "username \"Admin\" is is unique, and can't be used"
+            }, function (serverMessage) {});
+        }
+        if (from.length > 0 && text.length > 0) {
+            socket.emit("createMessage", {
+                from,
+                text
+            }, function (serverMessage) {
+            });
             $(".text").val("")
-        });
-        $(".to").prop({
-            disabled: true
-        });
-    } else {
-        alert("Please fill out username or text field");
+        } else {
+            alert("Please fill out username or text field");
+        }
+    }else{
+        socket.emit("createMessage",{
+            from:"Admin",
+            text:"Please fill out all fields"
+        },function(){
+            $(".text").val("")
+            
+        })
     }
 });
 
-socket.on("newMessage", function (msg) {
+$(".setUsername").on("click", function(e){
+    e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+    const to = usernameField.val()
+    if(to.length < 2){
+      return alert("Username must have at least length of 2");
+    }
+    socket.emit("setUsername",{
+        username:to
+    },function(user){
+    });
+});
+
+socket.on("sendUser",function(user){
+    addUserBtn.prop({
+        disabled:user.usernameFieldDisabled,
+    });
+    usernameField.prop({
+        disabled:user.usernameFieldDisabled
+    })
+    addToHtml(user);
+
+});
+
+socket.on("newMessage", function(msg) {
+    addToHtml(msg);
+});
+
+function addToHtml(user) {
     window.scrollBy(0, window.outerHeight)
     const hr = $("<hr>");
     const p = $("<p></p>");
@@ -40,13 +79,13 @@ socket.on("newMessage", function (msg) {
     const strong = $("<strong></strong>");
     const br = $("<br>");
     const msgPlace = $(".mesage");
-    i.text(`${msg.from}: `);
-    small.text(`${msg.createdAt}`);
+    i.text(`${user.msg.from}: `);
+    small.text(`${user.msg.createdAt}`);
     strong.append(i);
     p.append(strong);
-    p.append(`${msg.text}`);
+    p.append(`${user.msg.text}`);
     p.append(br);
     p.append(small);
     msgPlace.append(hr);
     msgPlace.append(p)
-});
+}

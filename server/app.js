@@ -26,6 +26,9 @@ app.get("/", (req, res) => {
 });
 
 io.on('connection', (socket) => {
+    socket.broadcast.emit("newMessage",{
+        msg: generateMesg("Admin","Someone conncted to the chat...")
+    })
     socket.on("createMessage", (msg, cb) => {
         const user = users.filter((userFromArray)=> userFromArray === msg.from);
         if(users.includes(user[0])){

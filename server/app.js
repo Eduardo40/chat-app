@@ -64,8 +64,7 @@ io.on('connection', (socket) => {
             });
         }
         socket.on("disconnect", () => {
-            const newUserArray = users.filter((user2)=> user2 !== user.username);
-            users = newUserArray;
+             users = users.filter((user2)=> user2 !== user.username);
             socket.broadcast.emit("newMessage", {
                 msg: generateMesg("Admin", `${user.username} has left the chat`)
             });

@@ -48,6 +48,9 @@ $(".setUsername").on("click", function(e){
     const to = usernameField.val()
     if(to.length < 2){
       return alert("Username must have at least length of 2");
+    }else if(to === "Admin"){
+        usernameField.val("");
+        return alert("Your username can't be \"Admin\"");
     }
     socket.emit("setUsername",{
         username:to
